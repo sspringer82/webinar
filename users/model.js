@@ -1,61 +1,30 @@
-import { v4 as uuidv4 } from 'uuid';
+import connection from '../db.js';
 
 const model = {
-  users: [
-    {
-      id: 1,
-      firstname: 'Basti',
-      lastname: 'Springer',
-    },
-    {
-      id: 2,
-      firstname: 'Claudia',
-      lastname: 'Müller',
-    },
-    {
-      id: 3,
-      firstname: 'Brigitte',
-      lastname: 'Meier',
-    },
-    {
-      id: 4,
-      firstname: 'Benno',
-      lastname: 'Schmitt',
-    },
-  ],
-  getAll() {
-    return this.users;
+  async getAll() {
+    const query = 'SELECT id, firstname, lastname FROM users';
+    return (await connection.query(query))[0];
   },
-  getOne(id) {
-    return this.users.find((u) => u.id === id);
+  async getOne(id) {
+    const query = 'SELECT id, firstname, lastname FROM users WHERE id = ?';
+    return (await connection.query(query, [id]))[0][0];
   },
-  create(user) {
-    const id = Math.max(...this.users.map((u) => u.id)) + 1;
-
-    // const id = uuidv4();
-
-    const newUser = { ...user, id };
-
-    this.users.push(newUser);
-
-    return newUser;
+  async create(user) {
+    const query = 'INSERT INTO users (firstname, lastname) VALUES (?, ?)';
+    const [result] = await connection.query(query, [
+      user.firstname,
+      user.lastname,
+    ]);
+    return { ...user, id: result.insertId };
   },
-  update(id, user) {
-    const index = this.users.findIndex((u) => u.id === id);
-
-    if (index === -1) {
-      throw new Error('Does not exist');
-    }
-
-    const existingUser = this.users[index];
-    const updatedUser = { ...existingUser, ...user };
-    this.users[index] = updatedUser;
-    return updatedUser;
+  async update(id, user) {
+    const query = 'UPDATE users SET firstname = ?, lastname = ? WHERE id = ?';
+    await connection.query(query, [user.firstname, user.lastname, id]);
+    return user;
   },
   remove(id) {
-    const index = this.users.findIndex((u) => u.id === id);
-
-    this.users.splice(index, 1);
+    const query = 'DELETE FROM users WHERE id = ?';
+    return connection.query(query, [id]);
   },
 };
 
