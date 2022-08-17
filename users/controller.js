@@ -1,33 +1,16 @@
-const users = [
-  {
-    id: 1,
-    firstname: 'Basti',
-    lastname: 'Springer',
-  },
-  {
-    id: 2,
-    firstname: 'Claudia',
-    lastname: 'Müller',
-  },
-  {
-    id: 3,
-    firstname: 'Brigitte',
-    lastname: 'Meier',
-  },
-  {
-    id: 4,
-    firstname: 'Benno',
-    lastname: 'Schmitt',
-  },
-];
+import model from './model.js';
 
 export function getAll(request, response) {
+  const users = model.getAll();
+
   response.json(users);
 }
 
 export function getOne(request, response) {
   const parsedId = parseInt(request.params.id, 10);
-  const user = users.find((u) => u.id === parsedId);
+
+  const user = model.getOne(parsedId);
+
   if (user) {
     response.json(user);
   } else {
@@ -39,11 +22,7 @@ export function getOne(request, response) {
 export function create(request, response) {
   const user = request.body;
 
-  const id = Math.max(...users.map((u) => u.id)) + 1;
-
-  const newUser = { ...user, id };
-
-  users.push(newUser);
+  const newUser = model.create(user);
 
   response.statusCode = 201;
   response.json(newUser);
@@ -53,19 +32,15 @@ export function update(request, response) {
   const id = parseInt(request.params.id, 10);
   const user = request.body;
 
-  const index = users.findIndex((u) => u.id === id);
+  const updatedUser = model.update(id, user);
 
-  const existingUser = users[index];
-  const updatedUser = { ...existingUser, ...user };
-  users[index] = updatedUser;
   response.json(updatedUser);
 }
 
 export function remove(request, response) {
   const id = parseInt(request.params.id, 10);
-  const index = users.findIndex((u) => u.id === id);
 
-  users.splice(index, 1);
+  model.remove(id);
 
   response.statusCode = 204;
   response.send();
