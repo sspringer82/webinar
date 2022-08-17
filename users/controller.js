@@ -1,6 +1,6 @@
 import { handleError } from '../util.js';
 import model from './model.js';
-import userSchema from './userSchema.js';
+import { createUserSchema, updateUserSchema } from './userSchema.js';
 
 export function getAll(request, response) {
   const users = model.getAll();
@@ -22,7 +22,7 @@ export function getOne(request, response) {
 }
 
 export function create(request, response) {
-  const { value: user, error } = userSchema.validate(request.body);
+  const { value: user, error } = createUserSchema.validate(request.body);
 
   if (error) {
     handleError(response, error);
@@ -37,7 +37,7 @@ export function create(request, response) {
 export function update(request, response) {
   const id = parseInt(request.params.id, 10);
 
-  const { value: user, error } = userSchema.validate(request.body);
+  const { value: user, error } = updateUserSchema.validate(request.body);
 
   if (error) {
     handleError(response, error);
