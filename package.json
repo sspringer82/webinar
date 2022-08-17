@@ -1,0 +1,25 @@
+{
+  "name": "webinar",
+  "version": "1.0.0",
+  "description": "Repo: https://github.com/sspringer82/webinar",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sspringer82/webinar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sspringer82/webinar/issues"
+  },
+  "homepage": "https://github.com/sspringer82/webinar#readme",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
