@@ -22,7 +22,9 @@ export function getOne(request, response) {
 }
 
 export function create(request, response) {
-  const { value: user, error } = createUserSchema.validate(request.body);
+  const { value: user, error } = createUserSchema.validate(request.body, {
+    abortEarly: false,
+  });
 
   if (error) {
     handleError(response, error);
@@ -37,7 +39,9 @@ export function create(request, response) {
 export function update(request, response) {
   const id = parseInt(request.params.id, 10);
 
-  const { value: user, error } = updateUserSchema.validate(request.body);
+  const { value: user, error } = updateUserSchema.validate(request.body, {
+    abortEarly: false,
+  });
 
   if (error) {
     handleError(response, error);
