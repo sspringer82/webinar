@@ -1,30 +1,45 @@
 import connection from '../db.js';
 
+import { Sequelize } from 'sequelize';
+const sequelize = new Sequelize({
+  dialect: 'mysql',
+  username: 'root',
+  password: 'geheim',
+  host: 'localhost',
+  port: 3306,
+  database: 'users',
+});
+
+const Users = sequelize.define(
+  'users',
+  {
+    firstname: {
+      type: Sequelize.STRING,
+    },
+    lastname: {
+      type: Sequelize.STRING,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+
 const model = {
   async getAll() {
-    const query = 'SELECT id, firstname, lastname FROM users';
-    return (await connection.query(query))[0];
+    return Users.findAll();
   },
   async getOne(id) {
-    const query = 'SELECT id, firstname, lastname FROM users WHERE id = ?';
-    return (await connection.query(query, [id]))[0][0];
+    return Users.findByPk(id);
   },
   async create(user) {
-    const query = 'INSERT INTO users (firstname, lastname) VALUES (?, ?)';
-    const [result] = await connection.query(query, [
-      user.firstname,
-      user.lastname,
-    ]);
-    return { ...user, id: result.insertId };
+    return (await Users.upsert(user))[0];
   },
   async update(id, user) {
-    const query = 'UPDATE users SET firstname = ?, lastname = ? WHERE id = ?';
-    await connection.query(query, [user.firstname, user.lastname, id]);
-    return user;
+    return (await Users.upsert(user))[0];
   },
   remove(id) {
-    const query = 'DELETE FROM users WHERE id = ?';
-    return connection.query(query, [id]);
+    return Users.destroy({ where: { id } });
   },
 };
 
