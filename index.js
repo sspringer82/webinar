@@ -1,37 +1,86 @@
-import { createServer } from 'node:http';
-
+import express from 'express';
 const port = 8080;
 
-const server = createServer((request, response) => {
-  console.log(request.url);
-  console.log(request.method);
+const users = [
+  {
+    id: 1,
+    firstname: 'Basti',
+    lastname: 'Springer',
+  },
+  {
+    id: 2,
+    firstname: 'Claudia',
+    lastname: 'Müller',
+  },
+  {
+    id: 3,
+    firstname: 'Brigitte',
+    lastname: 'Meier',
+  },
+  {
+    id: 4,
+    firstname: 'Benno',
+    lastname: 'Schmitt',
+  },
+];
 
-  if (request.url.startsWith('/users')) {
-    switch (request.method) {
-      case 'GET':
-        response.end(JSON.stringify(['Basti', 'Clara', 'Berta', 'Rüdiger']));
-        break;
-      case 'POST':
-        console.log('new user');
-        // response.statusCode = 201;
-        // response.setHeader('Content-Type', 'application/json');
+const app = express();
+app.use(express.json());
 
-        response.writeHead(201, { 'Content-Type': 'application/json' });
+app.get('/', (request, response) => {
+  response.send('Hallo Welt!');
+});
 
-        let body = '';
-        request.on('data', (chunk) => (body += chunk));
-        request.on('end', () => {
-          console.log('Body', JSON.parse(body));
-          response.end(body);
-        });
+app.get('/users', (request, response) => {
+  response.json(users);
+});
 
-        break;
-    }
+app.get('/users/:id', (request, response) => {
+  const parsedId = parseInt(request.params.id, 10);
+  const user = users.find((u) => u.id === parsedId);
+  if (user) {
+    response.json(user);
+  } else {
+    response.statusCode = 404;
+    response.send('not found');
   }
-
-  // response.end('Hallo Welt');
 });
 
-server.listen(port, () => {
-  console.log(`Server listening to http://localhost:${port}`);
+app.post('/users', (request, response) => {
+  const user = request.body;
+
+  const id = Math.max(...users.map((u) => u.id)) + 1;
+
+  const newUser = { ...user, id };
+
+  users.push(newUser);
+
+  response.statusCode = 201;
+  response.json(newUser);
 });
+
+app.put('/users/:id', (request, response) => {
+  const id = parseInt(request.params.id, 10);
+  const user = request.body;
+
+  const index = users.findIndex((u) => u.id === id);
+
+  const existingUser = users[index];
+  const updatedUser = { ...existingUser, ...user };
+  users[index] = updatedUser;
+  response.json(updatedUser);
+});
+
+app.delete('/users/:id', (request, response) => {
+  const id = parseInt(request.params.id, 10);
+  const index = users.findIndex((u) => u.id === id);
+
+  users.splice(index, 1);
+
+  response.statusCode = 204;
+  response.send();
+});
+
+app.listen(8080, () =>
+  console.log(`Server listens to http://localhost:${port}`)
+);
