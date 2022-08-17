@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 const model = {
   users: [
     {
@@ -30,6 +32,8 @@ const model = {
   create(user) {
     const id = Math.max(...this.users.map((u) => u.id)) + 1;
 
+    // const id = uuidv4();
+
     const newUser = { ...user, id };
 
     this.users.push(newUser);
@@ -38,6 +42,10 @@ const model = {
   },
   update(id, user) {
     const index = this.users.findIndex((u) => u.id === id);
+
+    if (index === -1) {
+      throw new Error('Does not exist');
+    }
 
     const existingUser = this.users[index];
     const updatedUser = { ...existingUser, ...user };

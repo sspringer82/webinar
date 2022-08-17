@@ -32,9 +32,13 @@ export function update(request, response) {
   const id = parseInt(request.params.id, 10);
   const user = request.body;
 
-  const updatedUser = model.update(id, user);
-
-  response.json(updatedUser);
+  try {
+    const updatedUser = model.update(id, user);
+    response.json(updatedUser);
+  } catch (error) {
+    response.statusCode = 400;
+    response.send('Whoops something went wrong');
+  }
 }
 
 export function remove(request, response) {
