@@ -4,7 +4,7 @@
   "description": "Repo: https://github.com/sspringer82/webinar",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "PORT=8080 SECRET=topSecret nodemon index.js"
   },
   "repository": {
     "type": "git",

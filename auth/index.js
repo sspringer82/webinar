@@ -2,7 +2,7 @@ import { Router } from 'express';
 import connection from '../db.js';
 import jsonwebtoken from 'jsonwebtoken';
 
-const secret = 'topSecret';
+const secret = process.env.SECRET;
 
 const router = Router();
 
