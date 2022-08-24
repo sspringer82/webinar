@@ -6,6 +6,7 @@ export async function getAll(request, response) {
   const users = await model.getAll();
 
   response.json(users);
+  performance.measure('getAll sent', 'incoming request');
 }
 
 export async function getOne(request, response) {

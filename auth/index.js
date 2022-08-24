@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import connection from '../db.js';
 import jsonwebtoken from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const secret = process.env.SECRET;
 
