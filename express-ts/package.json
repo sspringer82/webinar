@@ -4,7 +4,7 @@
   "description": "Repo: https://github.com/sspringer82/webinar",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env PORT=8080 SECRET=topSecret nodemon index.js",
+    "start": "cross-env PORT=8080 SECRET=topSecret ts-node index.ts",
     "test": "jest"
   },
   "repository": {
@@ -20,6 +20,10 @@
   "homepage": "https://github.com/sspringer82/webinar#readme",
   "private": true,
   "dependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^18.7.12",
     "cheerio": "^1.0.0-rc.12",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
@@ -33,6 +37,7 @@
     "nodemon": "^2.0.19",
     "sequelize": "^6.21.3",
     "supertest": "^6.2.4",
+    "ts-node": "^10.9.1",
     "uuid": "^8.3.2"
   }
 }

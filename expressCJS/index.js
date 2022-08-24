@@ -16,6 +16,8 @@ middleware(app);
 app.use('/users', validateToken, userRouter);
 app.use('/login', authRouter);
 
-app.listen(port, () =>
-  console.log(`Server listens to http://localhost:${port}`)
-);
+// app.listen(port, () =>
+//   console.log(`Server listens to http://localhost:${port}`)
+// );
+
+module.exports = app;
