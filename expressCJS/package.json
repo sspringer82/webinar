@@ -1,0 +1,37 @@
+{
+  "name": "webinar",
+  "version": "1.0.0",
+  "description": "Repo: https://github.com/sspringer82/webinar",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env PORT=8080 SECRET=topSecret nodemon index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sspringer82/webinar.git"
+  },
+  "keywords": [],
+  "author": "Sebastian Springer <info@sebastian-springer.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sspringer82/webinar/issues"
+  },
+  "homepage": "https://github.com/sspringer82/webinar#readme",
+  "private": true,
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.1.1",
+    "jest": "^28.1.3",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.19",
+    "sequelize": "^6.21.3",
+    "uuid": "^8.3.2"
+  }
+}
