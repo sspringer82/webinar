@@ -4,7 +4,7 @@
   "description": "Repo: https://github.com/sspringer82/webinar",
   "main": "index.js",
   "scripts": {
-    "start": "PORT=8080 SECRET=topSecret nodemon index.js"
+    "start": "cross-env PORT=8080 SECRET=topSecret nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,8 @@
     "nodemon": "^2.0.19",
     "sequelize": "^6.21.3",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
