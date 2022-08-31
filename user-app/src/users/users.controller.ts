@@ -29,7 +29,7 @@ import { UsersService } from './users.service';
 @ApiTags('users')
 @Controller('users')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
