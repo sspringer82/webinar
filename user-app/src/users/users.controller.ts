@@ -1,13 +1,19 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
   HttpCode,
+  ImATeapotException,
+  NotFoundException,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
+import { CreateUserDto } from './createuser.dto';
+import { NumberParameter } from './number-parameter';
+import { UserDto } from './user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
@@ -21,25 +27,27 @@ export class UsersController {
   }
 
   @Get('/:id')
-  getOne(@Param('id') id: string): Promise<User> {
-    return this.usersService.getOne(parseInt(id, 10));
+  async getOne(@Param() params: NumberParameter): Promise<User> {
+    const user = await this.usersService.getOne(parseInt(params.id, 10));
+    if (user) {
+      return user;
+    }
+    throw new NotFoundException();
   }
 
-  // Create
   @Post('/')
-  create(@Body() newUser: User): Promise<User> {
-    return this.usersService.save(newUser);
+  create(@Body() newUser: CreateUserDto): Promise<User> {
+    return this.usersService.save(newUser as User);
   }
 
-  // Update
   @Put('/:id')
-  update(@Body() updatedUser: User): Promise<User> {
-    return this.usersService.save(updatedUser);
+  update(@Body() updatedUser: UserDto): Promise<User> {
+    return this.usersService.save(updatedUser as User);
   }
 
   @Delete('/:id')
   @HttpCode(204)
-  remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(parseInt(id, 10));
+  remove(@Param() params: NumberParameter): Promise<void> {
+    return this.usersService.remove(parseInt(params.id, 10));
   }
 }
