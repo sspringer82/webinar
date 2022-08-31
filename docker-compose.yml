@@ -1,0 +1,18 @@
+version: '3'
+services:
+  users:
+    build:
+      context: users
+    depends_on:
+      - 'mysql'
+    restart: on-failure
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 'topSecret'
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3306:3306
+    volumes:
+      - ./initUsers.sql:/initUsers.sql
+    command: 'mysqld --init-file=/initUsers.sql'
