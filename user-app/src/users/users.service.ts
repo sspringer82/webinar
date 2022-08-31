@@ -9,7 +9,20 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  async getAll(): Promise<User[]> {
+  getAll(): Promise<User[]> {
     return this.usersRepository.find();
+  }
+
+  getOne(id: number): Promise<User> {
+    return this.usersRepository.findOneBy({ id });
+  }
+
+  save(user: User): Promise<User> {
+    return this.usersRepository.save(user);
+  }
+
+  async remove(id: number): Promise<void> {
+    const user = await this.getOne(id);
+    await this.usersRepository.remove(user);
   }
 }
