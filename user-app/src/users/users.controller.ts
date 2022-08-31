@@ -6,6 +6,7 @@ import {
   Get,
   HttpCode,
   ImATeapotException,
+  Logger,
   NotFoundException,
   Param,
   Post,
@@ -30,6 +31,8 @@ import { UsersService } from './users.service';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
+
   constructor(private readonly usersService: UsersService) {}
 
   @Get('/')
@@ -41,6 +44,8 @@ export class UsersController {
     isArray: true,
   })
   getAll(): Promise<User[]> {
+    this.logger.log('Hallo Welt');
+    this.logger.error('Oh nooo 👻');
     return this.usersService.getAll();
   }
 
