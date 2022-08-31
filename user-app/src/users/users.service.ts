@@ -17,6 +17,10 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
+  async getByCredentials(username: string, password: string): Promise<User> {
+    return this.usersRepository.findOneBy({ username, password });
+  }
+
   save(user: User): Promise<User> {
     return this.usersRepository.save(user);
   }
